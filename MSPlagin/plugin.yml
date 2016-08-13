@@ -1,0 +1,14 @@
+name: MSPlagin
+main: MS\Main
+version: 0.1
+api: [1.11.0]
+load: POSTWORLD
+website:
+author: murasyou
+commands:
+ sg:
+  description:SG専用コマンド
+  usage: "/sg サブコマンド"
+ ct:
+  description:CT専用コマンド
+  usage: "/ct サブコマンド"
