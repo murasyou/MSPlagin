@@ -10,7 +10,7 @@ use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\event\Listener;
 
-class PocketMoney extends PluginBase implements Listener
+class MSPlagin extends PluginBase implements Listener
   if(!file_exists($this->getDataFolder())){//configを入れるフォルダが有るかチェック
     mkdir($this->getDataFolder(), 0744, true);//なければフォルダを作成
 }
