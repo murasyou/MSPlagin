@@ -11,6 +11,8 @@ use pocketmine\utils\Config;
 use pocketmine\event\Listener;
 
 class MSPlagin extends PluginBase implements Listener
+ public function onEnable()
+    {
   if(!file_exists($this->getDataFolder())){//configを入れるフォルダが有るかチェック
     mkdir($this->getDataFolder(), 0744, true);//なければフォルダを作成
 }
@@ -33,6 +35,7 @@ array(
         'データ名(キー)' => '値'
         $this->configct->save();
 ));
+}
   public function onCommand(CommandSender $sender, Command $command, $label, array $args){
 if ($sender instanceof Player) return $this->onCommandByUser($sender, $command, $label, $args);
         switch ($command->getName()) {
