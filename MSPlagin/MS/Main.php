@@ -84,11 +84,5 @@ class Main extends PluginBase implements Listener{
 
                     }
                 }
-  public function onCommand(CommandSender $sender, Command $command, $label, array $args){
-        if (!$sender instanceof Player) return false;
-        switch ($command->getName()) {
-           case "gs":
-                $subCommand = strtolower(array_shift($args));
-                switch ($subCommand) {
             }
         }
