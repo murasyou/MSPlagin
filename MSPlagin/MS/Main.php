@@ -83,8 +83,8 @@ class Main extends PluginBase implements Listener{
                         $sender->sendMessage("インベントリー削除完了");
                         }else{
                         $sender->sendMessage("指定したMCIDがみつからない、またはあなたは権限がありません");
-　　　　　　　　　　　break;
                     }
+　　　　　　　　　　　break;
                     case "sp":
 			$name = array_shift($args);
 			$player = Server::getInstance()->getPlayer($sender);
