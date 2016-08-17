@@ -10,6 +10,10 @@ use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\event\Listener;
 use pocketmine\item\Item;
+use pocketmine\inventory\PlayerInventory;
+use pocketmine\entity\Entity;
+use pocketmine\event\player\PlayerJoinEvent;
+
 
 class Main extends PluginBase implements Listener{
   
@@ -80,6 +84,21 @@ class Main extends PluginBase implements Listener{
                         }else{
                         $sender->sendMessage("指定したMCIDがみつからない、またはあなたは権限がありません");
                     }
+                    case "sp":
+			$name = array_shift($args);
+			$player = Server::getInstance()->getPlayer($sender);
+                        $username = $sender->getName();
+            if ($this->configGS->exists("$username")){
+        $player->sendMessage("鉄装備を着用しました");
+        $player->getInventory()->setArmorItem(0,Item::get(306,0,1));//ヘルメット
+        $player->getInventory()->setArmorItem(1,Item::get(307,0,1));//チェストプレート
+        $player->getInventory()->setArmorItem(2,Item::get(308,0,1));//レギンス
+        $player->getInventory()->setArmorItem(3,Item::get(309,0,1));//ブーツ
+        $player->getInventory()->sendArmorContents($player);//ここで装備を着用させる
+                        }else{
+                        $sender->sendMessage("指定したMCIDがみつからない、またはあなたは権限がありません");
+                    }
+
                         break;
 
                     }
