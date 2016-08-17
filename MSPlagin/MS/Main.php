@@ -1,6 +1,6 @@
 <?php
 
-namespace MSPlagin;
+namespace MSPlugin;
 
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -9,48 +9,37 @@ use pocketmine\command\CommandSender;
 use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\event\Listener;
+use pocketmine\item\Item;
 
-class MSPlagin extends PluginBase implements Listener
-  if(!file_exists($this->getDataFolder())){//configを入れるフォルダが有るかチェック
-    mkdir($this->getDataFolder(), 0744, true);//なければフォルダを作成
+class Main extends PluginBase implements Listener{
+  
+ public function onEnable()
+    {
+	if (!file_exists($this->getDataFolder())) mkdir($this->getDataFolder(), 0744, true); 
+	$this->configGS = new Config($this->getDataFolder() . "configGS.yml", Config::YAML);//ファイルを生成
+        $this->configCT = new Config($this->getDataFolder() . "configCT.yml", Config::YAML);//ファイルを生成
 }
-//引数1:configファイルまでの場所とconfigファイル名,引数2:configファイルのフォーマット
-//引数3:configファイルに入れるデータ
-$this->config = new Config($this->getDataFolder() . "SGMember.yml", Config::YAML,
-array(
-        'test' => 'data',
-        'データ名(キー)' => '値'
-));
- if(!file_exists($this->getDataFolder())){//configを入れるフォルダが有るかチェック
-    mkdir($this->getDataFolder(), 0744, true);//なければフォルダを作成
-}
-//引数1:configファイルまでの場所とconfigファイル名,引数2:configファイルのフォーマット
-//引数3:configファイルに入れるデータ
-$this->configct = new Config($this->getDataFolder() . "CTMember.yml", Config::YAML,
-array(
-        'test' => 'data',
-        'データ名(キー)' => '値'
-));
   public function onCommand(CommandSender $sender, Command $command, $label, array $args){
-if ($sender instanceof Player) return $this->onCommandByUser($sender, $command, $label, $args);
+        if (!$sender instanceof Player) return false;
         switch ($command->getName()) {
            case "gs":
                 $subCommand = strtolower(array_shift($args));
                 switch ($subCommand) {
                     case "":
                     case "help":
-                        $sender->sendMessage("/gs kick プレイヤー");
+                        $sender->sendMessage("/gs gkick プレイヤー");
                         $sender->sendMessage("/gs sp ");
                         $sender->sendMessage("/gs c プレイヤー");
-　　　　　　　　　　　　$sender->sendMessage("/gs add プレイヤー");
+                        $sender->sendMessage("/gs add プレイヤー");
                         $sender->sendMessage("/gs del プレイヤー");
                         break;
 
                     case "add":
                         if($sender->isOp()){
-                        $target = array_shift($args);
-                        $this->config->set($player, "on");//値と名前を設定
-                        $this->config->save();//設定を保存
+                        $target =  strtolower(array_shift($args));
+                        $this->configGS->set($target);//値と名前を設定
+                        $this->configGS->save();//設定を保存
+                        $sender->sendMessage("登録完了");
                         }else{
                         $sender->sendMessage("あなたに権限はありません");
                         }
@@ -58,22 +47,48 @@ if ($sender instanceof Player) return $this->onCommandByUser($sender, $command, 
 
                     case "del":
                         if($sender->isOp()){                       
-                        $target = array_shift($args);
-                        $this->config->set($player, "off");//値と名前を設定
-                        $this->config->save();//設定を保存
+                        $target =  strtolower(array_shift($args));
+                        $this->configGS->remove($target);//値と名前を設定
+                        $this->configGS->save();//設定を保存
+                        $sender->sendMessage("削除完了");
                         }else{
                         $sender->sendMessage("あなたに権限はありません");
                         }
                         break;
 
                     case "kick":
-                        $gsk = $this->config->get($sender);
-                        $target = array_shift($args);
-                        if ($gsk == on){
-                        $player->kick("警備員によるkick", true);//trueをfalseにすることで"警備員によるkick"と表示されなくなります
-                        
+			$name = array_shift($args);
+			$player = Server::getInstance()->getPlayer($name);
+			$splayer = Server::getInstance()->getPlayer($sender);
+                        $username = $sender->getName();
+            if ($this->configGS->exists("$username")){
+                        $pname = $player->getName();
+                        $player->kick("警備員によるkick", true);//trueをfalseにすることで"警備員によるkick"と表示されなくなります  
                         }else{
-                        $sender->sendMessage("あなたに権限はありません");
-　　　　　　　　　　　　}
+                        $sender->sendMessage("指定したMCIDがみつからない、またはあなたは権限がありません");
+                    }
                         break;
-                        }}}
+                    case "c":
+			$name = array_shift($args);
+			$player = Server::getInstance()->getPlayer($name);
+			$splayer = Server::getInstance()->getPlayer($sender);
+                        $username = $sender->getName();
+            if ($this->configGS->exists("$username")){
+                        $pname = $player->getName();
+                        $player->getInventory()->clearAll();
+                        $sender->sendMessage("インベントリー削除完了");
+                        }else{
+                        $sender->sendMessage("指定したMCIDがみつからない、またはあなたは権限がありません");
+                    }
+                        break;
+
+                    }
+                }
+  public function onCommand(CommandSender $sender, Command $command, $label, array $args){
+        if (!$sender instanceof Player) return false;
+        switch ($command->getName()) {
+           case "gs":
+                $subCommand = strtolower(array_shift($args));
+                switch ($subCommand) {
+            }
+        }
