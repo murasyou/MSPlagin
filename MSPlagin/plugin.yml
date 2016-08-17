@@ -1,10 +1,26 @@
-name: MSPlugin
-main: MSPlugin\Main
+name: MSPlagin
+main: MS\Main
 version: 0.1
-api: [2.0.0]
+api: [1.11.0]
 load: POSTWORLD
 website:
 author: murasyou
 commands:
- gs:
-  description: SG専用コマンド
+ sg:
+  description:SG専用コマンド
+  usage: "/sg サブコマンド"
+  sg.help:
+   default: true
+   description: "Allows using \"/sg\" command"
+  sg.add:
+   default: op
+   description: "Allows using \"/sg\" command"
+  sg.del:
+   default: op
+   description: "Allows using \"/sg\" command"
+  sg.kick:
+   default: true
+   description: "Allows using \"/sg\" command"
+ ct:
+  description:CT専用コマンド
+  usage: "/ct サブコマンド"
